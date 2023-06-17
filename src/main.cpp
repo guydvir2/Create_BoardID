@@ -3,13 +3,13 @@
 
 myIOT2 iot;
 const int JDOC_SIZE = 500;
-const char *filename = "board_id.json";
+const char *filename = "/board_id.json";
 const char *id_keys[] = {"id_num", "mcu_type", "input_pins", "output_pins", "RF_enabled", "ver"};
 
 /* User defines following parameters */
 bool overrun_board_id = false;
 
-uint8_t idnum = 2;                    /* unique serial ID */
+uint8_t idnum = 5;                    /* unique serial ID */
 uint8_t mcutype = 0;                  /* 0: ESP8266; 1:ESP32 */
 uint8_t inpins[] = {5, 4, 0, 2};      /* inputs */
 uint8_t outpins[] = {16, 14, 12, 13}; /* relays */

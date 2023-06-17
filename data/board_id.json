@@ -1,6 +1,6 @@
 {
-    "id_num":11,
-    "mcu_type":0,
+    "id_num":13,
+    "mcu_type":1,
     "input_pins":[0,12],
     "output_pins":[5,4],
     "RF_enabled":false,
