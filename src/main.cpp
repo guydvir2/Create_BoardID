@@ -9,9 +9,9 @@ const char *id_keys[] = {"id_num", "mcu_type", "input_pins", "output_pins", "RF_
 /* User defines following parameters */
 bool overrun_board_id = false;
 
-uint8_t idnum = 1;                    /* unique serial ID */
+uint8_t idnum = 4;                    /* unique serial ID */
 uint8_t mcutype = 0;                  /* 0: ESP8266; 1:ESP32 */
-uint8_t inpins[] = {5, 4, 0, 2, 15};  /* inputs */
+uint8_t inpins[] = {5, 4, 0, 2};      /* inputs */
 uint8_t outpins[] = {16, 14, 12, 13}; /* relays */
 bool rf_en = false;                   /* RF inputs */
 uint8_t v = 1;
@@ -146,7 +146,7 @@ uint8_t update_boardID()
   {
     if (write_boardID())
     {
-      Serial.println("Boad ID was saved to flash");
+      Serial.println("Board ID was saved to flash");
       Serial.flush();
       return 1;
     }

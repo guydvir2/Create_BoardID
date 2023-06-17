@@ -1,0 +1,8 @@
+{
+    "id_num":11,
+    "mcu_type":0,
+    "input_pins":[0,12],
+    "output_pins":[5,4],
+    "RF_enabled":false,
+    "ver":2
+}
