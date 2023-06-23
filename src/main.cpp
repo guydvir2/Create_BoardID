@@ -4,17 +4,19 @@
 myIOT2 iot;
 const int JDOC_SIZE = 500;
 const char *filename = "/board_id.json";
-const char *id_keys[] = {"id_num", "mcu_type", "input_pins", "output_pins", "RF_enabled", "ver"};
+const char *id_keys[] = {"id_num", "mcu_type", "inputPins", "relayPins", "RF_enabled", "RFpin", "ver"};
 
 /* User defines following parameters */
 bool overrun_board_id = false;
 
-uint8_t idnum = 5;                    /* unique serial ID */
+uint8_t idnum = 11;                    /* unique serial ID */
 uint8_t mcutype = 0;                  /* 0: ESP8266; 1:ESP32 */
 uint8_t inpins[] = {5, 4, 0, 2};      /* inputs */
 uint8_t outpins[] = {16, 14, 12, 13}; /* relays */
 bool rf_en = false;                   /* RF inputs */
+uint8_t RF_p = 255;                   /* RFpin - usually 27, none is 255 */
 uint8_t v = 1;
+
 /* End */
 
 bool read_boardID(char id[])
@@ -54,7 +56,8 @@ bool write_boardID()
   }
 
   DOC[id_keys[4]] = rf_en;
-  DOC[id_keys[5]] = v;
+  DOC[id_keys[5]] = RF_p;
+  DOC[id_keys[6]] = v;
 
   return (Jflash.writeFile(DOC, filename));
 }
@@ -73,9 +76,9 @@ void addiotnalMQTT(char *incoming_msg, char *_topic)
     {
       iot.pub_msg(msg);
     }
-    else{
+    else
+    {
       iot.pub_msg("Board_ID: failed to read");
-
     }
   }
   else if (strcmp(incoming_msg, "help2") == 0)
