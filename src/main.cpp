@@ -9,13 +9,13 @@ const char *id_keys[] = {"id_num", "mcu_type", "inputPins", "relayPins", "RF_ena
 /* User defines following parameters */
 bool overrun_board_id = false;
 
-uint8_t idnum = 11;                    /* unique serial ID */
+uint8_t idnum = 15;                   /* unique serial ID */
 uint8_t mcutype = 0;                  /* 0: ESP8266; 1:ESP32 */
 uint8_t inpins[] = {5, 4, 0, 2};      /* inputs */
 uint8_t outpins[] = {16, 14, 12, 13}; /* relays */
 bool rf_en = false;                   /* RF inputs */
 uint8_t RF_p = 255;                   /* RFpin - usually 27, none is 255 */
-uint8_t v = 1;
+uint8_t v = 2;
 
 /* End */
 
@@ -38,7 +38,7 @@ bool check_file_exists()
   myJflash Jflash(true);
   return (Jflash.exists(filename));
 }
-bool write_boardID()
+bool write2Flash_boardID()
 {
   myJflash Jflash;
   StaticJsonDocument<JDOC_SIZE> DOC;
@@ -83,12 +83,12 @@ void addiotnalMQTT(char *incoming_msg, char *_topic)
   }
   else if (strcmp(incoming_msg, "help2") == 0)
   {
-    sprintf(msg, "help2: get_id, force_update");
+    sprintf(msg, "help2: get_id, force_update, bit");
     iot.pub_msg(msg);
   }
   else if (strcmp(incoming_msg, "force_update") == 0)
   {
-    if (write_boardID())
+    if (write2Flash_boardID())
     {
       iot.pub_msg("Update: Success");
       iot.sendReset("update_flash");
@@ -115,11 +115,11 @@ void addiotnalMQTT(char *incoming_msg, char *_topic)
         digitalWrite(DOC[id_keys[3]][i], !digitalRead(DOC[id_keys[3]][i]));
         delay(1000);
       }
-      iot.pub_msg("Bit: Done");
+      iot.pub_msg("Bit: Done. Outputs checked OK");
     }
     else
     {
-      iot.pub_msg("Bit: Failed. File Error");
+      iot.pub_msg("Bit: Failed. File not found");
     }
   }
 }
@@ -160,7 +160,7 @@ uint8_t update_boardID()
 {
   if (!check_file_exists() || overrun_board_id)
   {
-    if (write_boardID())
+    if (write2Flash_boardID())
     {
       Serial.println("Board ID was saved to flash");
       Serial.flush();
